@@ -19,6 +19,9 @@
 
         public function show($id)
         {
+            $consultants = Client::getClientConsultantsData($this->pdo, $id);
+            $package = Client::getClientPackageData($this->pdo, $id);
+            $contacts = Client::getClientContactData($this->pdo, $id);
             $client = Client::getClientById($this->pdo, $id);
             require_once '../app/Views/clients/show.php';
         }
@@ -49,7 +52,7 @@
                         Client::updateClientPackage($this->pdo, $id, $package_id);
                     }
 
-                    $contacts = $_POST['contacts'];
+                    $contacts = isset($_POST['contacts']) ? $_POST['contacts'] : false;
                     if ($contacts) {
                         Client::updateClientContactData($this->pdo, $id, $contacts);
                     }

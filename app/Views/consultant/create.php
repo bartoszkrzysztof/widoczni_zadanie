@@ -6,9 +6,9 @@
 ?>
     <header class="container">
         <h1>Dodaj konsultanta</h1>
-        <a href="/consultant/index">Powrót do listy konsultantów</a>
+        <a href="/consultant/index" class="button-alt">Powrót do listy konsultantów</a>
     </header>
-    <main class="container">
+    <main class="container content">
         <?php
             include_once __DIR__ . '/../components/validate_form.php';
         ?>
@@ -30,7 +30,7 @@
                 <label for="phone">Telefon:</label>
                 <input type="text" name="phone" id="phone" value="" required>
             </div>
-            <button type="submit">Zapisz zmiany</button>
+            <button type="submit" class="button">Zapisz zmiany</button>
         </form>
     </main>
 <?php

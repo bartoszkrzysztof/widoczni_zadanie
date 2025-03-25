@@ -163,6 +163,20 @@ class Client {
         return $consultants;
     }
 
+    public static function getClientConsultantsData($pdo, $id) {
+        if (!$pdo || !$id) return false;
+
+        $consultants_ids = self::getClientConsultants($pdo, $id);
+        if (!$consultants_ids) return false;
+
+        $placeholders = implode(',', array_fill(0, count($consultants_ids), '?'));
+        $stmt = $pdo->prepare("SELECT * FROM consultants WHERE id IN ($placeholders)");
+        $stmt->execute($consultants_ids);
+        $consultants = $stmt->fetchAll();
+
+        return $consultants;
+    }
+
     public static function updateClientPackage($pdo, $id, $package_id) {
         if (!$pdo || !$id || !$package_id) return false;
 
@@ -192,6 +206,22 @@ class Client {
         $package_id = $stmt->fetchColumn();
 
         return $package_id;
+    }
+
+    public static function getClientPackageData($pdo, $id) {
+        if (!$pdo || !$id) return false;
+
+        $package_id = self::getClientPackage($pdo, $id);
+
+        if ($package_id) {
+            $stmt = $pdo->prepare("SELECT * FROM packages_lib WHERE id = :id");
+            $stmt->execute(['id' => $package_id]);
+            $package = $stmt->fetch();
+
+            return $package;
+        }
+
+        return false;
     }
 
     public static function updateClientContactData($pdo, $id, $contacts) {

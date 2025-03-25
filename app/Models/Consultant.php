@@ -98,4 +98,28 @@ class Consultant {
         
         return $results;   
     }
+
+    public static function getClientsByConsultantId($pdo, $id) {
+        if (!$pdo || !$id) return false;
+
+        $stmt = $pdo->prepare("SELECT client_id FROM connections_clients_consultants WHERE consultant_id = :consultant_id");
+        $stmt->execute(['consultant_id' => $id]);
+        $clients = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        return $clients;
+    }
+
+    public static function getClientsData($pdo, $id) {
+        if (!$pdo || !$id) return false;
+
+        $clients_ids = self::getClientsByConsultantId($pdo, $id);
+        if (!$clients_ids) return false;
+
+        $placeholders = implode(',', array_fill(0, count($clients_ids), '?'));
+        $stmt = $pdo->prepare("SELECT * FROM clients WHERE id IN ($placeholders)");
+        $stmt->execute($clients_ids);
+        $clients = $stmt->fetchAll();
+
+        return $clients;
+    }
 }

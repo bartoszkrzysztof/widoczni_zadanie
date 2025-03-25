@@ -6,9 +6,9 @@
 ?>
     <header class="container">
         <h1>Dodaj klienta</h1>
-        <a href="/client/index">Powrót do listy klientów</a>
+        <a href="/client/index" class="button-alt">Powrót do listy klientów</a>
     </header>
-    <main class="container">
+    <main class="container content">
         <?php
             include_once __DIR__ . '/../components/validate_form.php';
         ?>
@@ -42,7 +42,7 @@
                 <label for="country">Kraj:</label>
                 <input type="text" name="country" id="country" value="" required>
             </div>
-            <button type="submit">Zapisz zmiany</button>
+            <button class="button" type="submit">Zapisz zmiany</button>
         </form>
     </main>
 <?php

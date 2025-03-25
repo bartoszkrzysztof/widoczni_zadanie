@@ -6,9 +6,9 @@
 ?>
     <header class="container">
         <h1>Lista konsultantów</h1>
-        <a href="/consultant/create">Dodaj nowego konsultanta</a>
+        <a href="/consultant/create" class="button">Dodaj nowego konsultanta</a>
     </header>
-    <main class="container">
+    <main class="container content">
         <?php if ($consultants) : ?>
             <table>
                 <thead>
@@ -24,14 +24,14 @@
                 <tbody>
                     <?php foreach ($consultants as $consultant): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($consultant->id); ?></td>
-                            <td><?php echo htmlspecialchars($consultant->first_name); ?></td>
-                            <td><?php echo htmlspecialchars($consultant->last_name); ?></td>
-                            <td><?php echo htmlspecialchars($consultant->email); ?></td>
-                            <td><?php echo htmlspecialchars($consultant->phone); ?></td>
+                            <td><?= htmlspecialchars($consultant->id); ?></td>
+                            <td><?= htmlspecialchars($consultant->first_name); ?></td>
+                            <td><?= htmlspecialchars($consultant->last_name); ?></td>
+                            <td><?= htmlspecialchars($consultant->email); ?></td>
+                            <td><?= htmlspecialchars($consultant->phone); ?></td>
                             <td>
-                                <a href="/consultant/show/<?php echo htmlspecialchars($consultant->id); ?>">Szczegóły</a>
-                                <a href="/consultant/edit/<?php echo htmlspecialchars($consultant->id); ?>">Edytuj</a>
+                                <a href="/consultant/show/<?= htmlspecialchars($consultant->id); ?>" class="button">Szczegóły</a>
+                                <a href="/consultant/edit/<?= htmlspecialchars($consultant->id); ?>" class="button-alt">Edytuj</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

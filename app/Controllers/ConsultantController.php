@@ -18,6 +18,7 @@ class ConsultantController
     public function show($id)
     {
         $consultant = Consultant::getConsultantById($this->pdo, $id);
+        $clients = Consultant::getClientsData($this->pdo, $id);
         require_once '../app/Views/consultant/show.php';
     }
 

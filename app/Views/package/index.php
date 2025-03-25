@@ -6,9 +6,9 @@
 ?>
     <header class="container">
         <h1>Lista pakietów</h1>
-        <a href="/package/create">Dodaj nowy pakiet</a>
+        <a href="/package/create" class="button">Dodaj nowy pakiet</a>
     </header>
-    <main class="container">
+    <main class="container content">
         <?php if ($packages) : ?>
             <table>
                 <thead>
@@ -24,7 +24,7 @@
                             <td><?php echo htmlspecialchars($package->name); ?></td>
                             <td><?php echo htmlspecialchars($package->description); ?></td>
                             <td>
-                                <a href="/package/edit/<?php echo htmlspecialchars($package->id); ?>">Edytuj</a>
+                                <a href="/package/edit/<?php echo htmlspecialchars($package->id); ?>" class="button-alt">Edytuj</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

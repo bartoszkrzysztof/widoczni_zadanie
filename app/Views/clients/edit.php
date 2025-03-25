@@ -6,44 +6,44 @@
     $client_name = $client->name ?? 'null';
 ?>
     <header class="container">
-        <h1>Edytuj klienta: <?php echo $client_name; ?></h1>
-        <a href="/client/create">Dodaj nowego klienta</a>
-        <a href="/client/index">Powrót do listy klientów</a>
+        <h1>Edytuj klienta: <?= $client_name; ?></h1>
+        <a href="/client/create" class="button">Dodaj nowego klienta</a>
+        <a href="/client/index" class="button-alt">Powrót do listy klientów</a>
     </header>
-    <main class="container">
+    <main class="container content">
         <?php if ($client) : ?>
             <?php
                 include_once __DIR__ . '/../components/validate_form.php';
             ?>
-            <form action="/client/edit/<?php echo $client->id; ?>" method="POST">
+            <form action="/client/edit/<?= $client->id; ?>" method="POST">
                 <input type="hidden" name="action" value="update_client">
                 <div class="form-group">
                     <label for="name">Nazwa:</label>
-                    <input type="text" name="name" id="name" value="<?php echo $client->name; ?>" required>
+                    <input type="text" name="name" id="name" value="<?= $client->name; ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" name="email" id="email" value="<?php echo $client->email; ?>" required>
+                    <input type="email" name="email" id="email" value="<?= $client->email; ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="phone">Telefon:</label>
-                    <input type="text" name="phone" id="phone" value="<?php echo $client->phone; ?>" required>
+                    <input type="text" name="phone" id="phone" value="<?= $client->phone; ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="address">Adres:</label>
-                    <input type="text" name="address" id="address" value="<?php echo $client->address; ?>" required>
+                    <input type="text" name="address" id="address" value="<?= $client->address; ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="postal_code">Kod pocztowy:</label>
-                    <input type="text" name="postal_code" id="postal_code" value="<?php echo $client->postal_code; ?>" required>
+                    <input type="text" name="postal_code" id="postal_code" value="<?= $client->postal_code; ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="city">Miasto:</label>
-                    <input type="text" name="city" id="city" value="<?php echo $client->city; ?>" required>
+                    <input type="text" name="city" id="city" value="<?= $client->city; ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="country">Kraj:</label>
-                    <input type="text" name="country" id="country" value="<?php echo $client->country; ?>" required>
+                    <input type="text" name="country" id="country" value="<?= $client->country; ?>" required>
                 </div>
                 <?php if ($consultants) : ?>
                     <?php
@@ -54,8 +54,8 @@
                         <select multiple name="consultant_ids[]" id="consultant_id" required>
                             <option value="">Wybierz konsultanta</option>
                             <?php foreach ($consultants as $consultant) : ?>
-                                <option value="<?php echo $consultant->id; ?>" <?php echo (in_array($consultant->id, $selected_consultant_ids)) ? 'selected' : ''; ?>>
-                                    <?php echo $consultant->first_name . ' ' . $consultant->last_name; ?>
+                                <option value="<?= $consultant->id; ?>" <?= (in_array($consultant->id, $selected_consultant_ids)) ? 'selected' : ''; ?>>
+                                    <?= $consultant->first_name . ' ' . $consultant->last_name; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -70,35 +70,36 @@
                         <select name="package_id" id="package_id" required>
                             <option value="">Wybierz pakiet</option>
                             <?php foreach ($packages as $package) : ?>
-                                <option value="<?php echo $package->id; ?>" <?php echo ($package->id === $selected_package) ? 'selected' : ''; ?>>
-                                    <?php echo $package->name; ?>
+                                <option value="<?= $package->id; ?>" <?= ($package->id === $selected_package) ? 'selected' : ''; ?>>
+                                    <?= $package->name; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                 <?php endif; ?>
-                <div class="form-group">
+                <div class="inputs-group">
                     <label>Osoby kontaktowe:</label>
                     <div id="js-contact-list">
                         <?php if (isset($contacts) && $contacts) : ?>
                             <?php foreach ($contacts as $key => $contact) : ?>
                                 <div class="contact-item">
-                                    <input type="text" name="contacts[<?php echo $key; ?>][name]" value="<?php echo $contact['name']; ?>" placeholder="Imię i nazwisko" required>
-                                    <input type="email" name="contacts[<?php echo $key; ?>][email]" value="<?php echo $contact['email']; ?>" placeholder="Email" required>
-                                    <input type="text" name="contacts[<?php echo $key; ?>][phone]" value="<?php echo $contact['phone']; ?>" placeholder="Telefon">
-                                    <button type="button" class="js-remove-contact">Usuń</button>
+                                    <input type="text" name="contacts[<?= $key; ?>][name]" value="<?= $contact['name']; ?>" placeholder="Imię i nazwisko" required>
+                                    <input type="email" name="contacts[<?= $key; ?>][email]" value="<?= $contact['email']; ?>" placeholder="Email" required>
+                                    <input type="text" name="contacts[<?= $key; ?>][phone]" value="<?= $contact['phone']; ?>" placeholder="Telefon">
+                                    <button type="button" class="button-alt" class="js-remove-contact">Usuń</button>
                                 </div>
                             <?php endforeach;  ?>
                         <?php endif; ?>
                     </div>
-                    <button type="button" id="js-add-contact">Dodaj osobę kontaktową</button>
+                    <button type="button" class="button-alt" id="js-add-contact">Dodaj osobę kontaktową</button>
                 </div>
 
-                <button type="submit">Zapisz zmiany</button>
+                <button type="submit" class="button">Zapisz zmiany</button>
             </form>
-            <form action="/client/edit/<?php echo $client->id; ?>" method="POST" class="js-delete-form">
+            <hr />
+            <form action="/client/edit/<?= $client->id; ?>" method="POST" class="js-delete-form">
                 <input type="hidden" name="action" value="delete_client">
-                <button type="submit">Usuń klienta</button>
+                <button type="submit" class="button-alt">Usuń klienta</button>
             </form>
         <?php else : ?>
             <p>Brak klientów do edycji.</p>

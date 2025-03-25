@@ -6,10 +6,10 @@
 ?>
     <header class="container">
         <h1>Edycja pakietu</h1>
-        <a href="/package">Wróć do listy pakietów</a>
-        <a href="/package/create">Dodaj nowy pakiet</a>
+        <a href="/package" class="button">Wróć do listy pakietów</a>
+        <a href="/package/create" class="button-alt">Dodaj nowy pakiet</a>
     </header>
-    <main class="container">
+    <main class="container content">
         <?php if ($package) : ?>
             <?php
                 include_once __DIR__ . '/../components/validate_form.php';
@@ -24,11 +24,12 @@
                     <label for="description">Opis:</label>
                     <textarea name="description" id="description" required><?= $package->description; ?></textarea>
                 </div>
-                <button type="submit">Zapisz zmiany</button>
+                <button type="submit" class="button">Zapisz zmiany</button>
             </form>
+            <hr />
             <form action="/package/edit/<?= $package->id; ?>" method="POST" class="js-delete-form">
                 <input type="hidden" name="action" value="delete_package">
-                <button type="submit">Usuń pakiet</button>
+                <button type="submit" class="button-alt">Usuń pakiet</button>
             </form>
         <?php else : ?>
             <p>Brak pakietu do edycji.</p>     

@@ -11,11 +11,10 @@
     <script src="/assets/scripts.js"></script>
 </head>
 <body>
-<nav class="container">
-    <a href="/package">Pakiety</a>
-    <a href="/package/create">Dodaj pakiet</a>
-    <a href="/client">Klienci</a>
-    <a href="/client/create">Dodaj klienta</a>
-    <a href="/consultant">Konsultanci</a>
-    <a href="/consultant/create">Dodaj konsultanta</a>
-</nav>
+<div class="container">
+    <nav>
+        <a href="/client">Klienci</a>
+        <a href="/consultant">Konsultanci</a>
+        <a href="/package">Pakiety</a>
+    </nav>
+</div>

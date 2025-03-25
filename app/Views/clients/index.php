@@ -6,10 +6,10 @@
 ?>
 <header class="container">
     <h1>Lista klientów</h1>
-    <a href="/client/create">Dodaj nowego klienta</a>
+    <a href="/client/create" class="button">Dodaj nowego klienta</a>
 </header>
 <?php if ($clients) : ?>
-    <main class="container">
+    <main class="container content">
         <table>
             <thead>
                 <tr>
@@ -22,12 +22,12 @@
             <tbody>
                 <?php foreach ($clients as $client): ?>
                     <tr>
-                        <td><?php echo $client->id; ?></td>
-                        <td><?php echo $client->name; ?></td>
-                        <td><?php echo $client->email; ?></td>
+                        <td><?= $client->id; ?></td>
+                        <td><?= $client->name; ?></td>
+                        <td><?= $client->email; ?></td>
                         <td>
-                            <a href="/client/show/<?php echo $client->id; ?>">Szczegóły</a>
-                            <a href="/client/edit/<?php echo $client->id; ?>">Edytuj</a>
+                            <a href="/client/show/<?= $client->id; ?>" class="button">Szczegóły</a>
+                            <a href="/client/edit/<?= $client->id; ?>" class="button-alt">Edytuj</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

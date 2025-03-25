@@ -6,9 +6,9 @@
 ?>
     <header class="container">
         <h1>Dodaj pakiet</h1>
-        <a href="/package">Wróć do listy pakietów</a>
+        <a href="/package" class="button-alt">Wróć do listy pakietów</a>
     </header>
-    <main class="container">
+    <main class="container content">
         <?php
             include_once __DIR__ . '/../components/validate_form.php';
         ?>
@@ -22,7 +22,7 @@
                 <label for="description">Opis:</label>
                 <textarea name="description" id="description" required></textarea>
             </div>
-            <button type="submit">Zapisz zmiany</button>
+            <button type="submit" class="button">Zapisz zmiany</button>
         </form>
     </main>
 <?php
