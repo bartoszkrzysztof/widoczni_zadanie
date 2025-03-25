@@ -2,7 +2,7 @@
     require_once '../config/database.php';
     require_once __DIR__ . '/../app/Controllers/ClientController.php';
     require_once __DIR__ . '/../app/Controllers/ConsultantController.php';
-    require_once __DIR__ . '/../app/Controllers/AssignmentController.php';
+    require_once __DIR__ . '/../app/Controllers/PackageController.php';
 
     $controller = 'ClientController';
     $action = 'index';

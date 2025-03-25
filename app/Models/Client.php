@@ -15,7 +15,7 @@ class Client {
     public function __construct() {
     }
 
-    public static function getAll($pdo) {
+    public static function getAllClients($pdo) {
         if (!$pdo) return false;
 
         $clients = Users::getAll($pdo, 'clients');
@@ -23,7 +23,7 @@ class Client {
         return $clients;
     }
 
-    public static function getById($pdo, $id) {
+    public static function getClientById($pdo, $id) {
         if (!$pdo || !$id) return false;
 
         $client = Users::getById($pdo, $id, 'clients');

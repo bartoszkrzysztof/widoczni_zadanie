@@ -11,13 +11,13 @@ class ConsultantController
 
     public function index()
     {
-        $consultants = Consultant::getAll($this->pdo);
+        $consultants = Consultant::getAllConsultants($this->pdo);
         require_once '../app/Views/consultant/index.php';
     }
 
     public function show($id)
     {
-        $consultant = Consultant::getById($this->pdo, $id);
+        $consultant = Consultant::getConsultantById($this->pdo, $id);
         require_once '../app/Views/consultant/show.php';
     }
 

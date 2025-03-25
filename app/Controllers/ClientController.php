@@ -11,13 +11,13 @@
 
         public function index()
         {
-            $clients = Client::getAll($this->pdo);
+            $clients = Client::getAllClients($this->pdo);
             require_once '../app/Views/clients/index.php';
         }
 
         public function show($id)
         {
-            $client = Client::getById($this->pdo, $id);
+            $client = Client::getClientById($this->pdo, $id);
             require_once '../app/Views/clients/show.php';
         }
 

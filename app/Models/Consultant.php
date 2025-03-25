@@ -11,7 +11,7 @@ class Consultant {
     public function __construct() {
     }
 
-    public static function getAll($pdo) {
+    public static function getAllConsultants($pdo) {
         if (!$pdo) return false;
 
         $consultants = Users::getAll($pdo, 'consultants');
@@ -19,7 +19,7 @@ class Consultant {
         return $consultants;
     }
 
-    public static function getById($pdo, $id) {
+    public static function getConsultantById($pdo, $id) {
         if (!$pdo || !$id) return false;
 
         $consultant = Users::getById($pdo, $id, 'consultants');
