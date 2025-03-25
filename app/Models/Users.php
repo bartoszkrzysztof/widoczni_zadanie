@@ -59,15 +59,67 @@ class Users {
         return $meta_value;
     }
 
-    public function save() {
-        // Logic to save a new caregiver to the database
+    public static function update($pdo, $id, $table, $data) {
+        if (!$pdo || !$id) return false;
+
+        $status = 'error';
+        $fields = '';
+        foreach ($data as $key => $value) {
+            $fields .= "{$key} = '{$value}',";
+        }
+        $fields = rtrim($fields, ',');
+        $pdo_stmt = $pdo->prepare("UPDATE {$table} SET {$fields} WHERE id = {$id}");
+        
+        if ($pdo_stmt->execute()) {
+            $success['success'] = 'Pomyślnie zaktualizowano.';
+            $status = 'success';
+            return ['status' => $status, 'messages' => $success];
+        } 
+        else {
+            $errors['update'] = 'Wystąpił błąd podczas aktualizacji.';
+            return ['status' => $status, 'messages' => $errors];
+        }
     }
 
-    public function update($id) {
-        // Logic to update caregiver information in the database
-    }
+    public static function create($pdo, $table, $data) {
+        if (!$pdo) return false;
 
-    public function delete($id) {
-        // Logic to delete a caregiver from the database
+        $errors = [];
+        $status = 'error';
+        $fields = '';
+        foreach ($data as $key => $value) {
+            $fields .= "{$key} = '{$value}',";
+        }
+        $fields = rtrim($fields, ',');
+        $pdo_stmt = $pdo->prepare("INSERT INTO {$table} SET {$fields}");
+
+        if ($pdo_stmt->execute()) {
+            $success['success'] = 'Pomyślnie dodano.';
+            $status = 'success';
+            $id = $pdo->lastInsertId();
+            return ['status' => $status, 'messages' => $success, 'id' => $id];
+        } 
+        else {
+            $errors['update'] = 'Wystąpił błąd podczas dodawania.';
+            return ['status' => $status, 'messages' => $errors];
+        }
+    }
+    
+    public static function delete($pdo, $id, $table) {
+        if (!$pdo || !$id) return false;
+        $status = 'error';
+
+        $pdo_stmt = $pdo->prepare("DELETE FROM {$table} WHERE id = :id");
+        $pdo_stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+        if ($pdo_stmt->execute()) {
+            $success['success'] = 'Pomyślnie usunięto.';
+            $status = 'success';
+            return ['status' => $status, 'messages' => $success];
+        } 
+        else {
+            $errors['update'] = 'Wystąpił błąd podczas usuwania.';
+            return ['status' => $status, 'messages' => $errors];
+        }
     }
 }

@@ -1,27 +1,48 @@
 <?php
-// Widok do edycji danych opiekuna
+    // Edytuj konsultanta
 
-// Zakładamy, że zmienna $caregiver zawiera dane opiekuna do edycji
+    $name = 'Edytuj konsultanta';
+    include_once __DIR__ . '/../components/header.php';
+    $consultant_name = $consultant->full_name ?? 'null';
 ?>
-
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edycja Opiekuna</title>
-</head>
-<body>
-    <h1>Edycja Opiekuna</h1>
-    <form action="/caregivers/update/<?php echo $caregiver->id; ?>" method="POST">
-        <label for="name">Imię i Nazwisko:</label>
-        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($caregiver->name); ?>" required>
-        
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($caregiver->email); ?>" required>
-        
-        <button type="submit">Zapisz zmiany</button>
-    </form>
-    <a href="/caregivers">Powrót do listy opiekunów</a>
-</body>
-</html>
+    <header class="container">
+        <h1>Edytuj konsultanta: <?php echo $consultant_name; ?></h1>
+        <a href="/consultant/create">Dodaj nowego konsultanta</a>
+        <a href="/consultant/index">Powrót do listy konsultantów</a>
+    </header>
+    <main class="container">
+        <?php if ($consultant) : ?>
+            <?php
+                include_once __DIR__ . '/../components/validate_form.php';
+            ?>
+            <form action="/consultant/edit/<?php echo $consultant->id; ?>" method="POST">
+                <input type="hidden" name="action" value="update_consultant">
+                <div class="form-group">
+                    <label for="first_name">Imię:</label>
+                    <input type="text" name="first_name" id="first_name" value="<?php echo $consultant->first_name; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Nazwisko:</label>
+                    <input type="text" name="last_name" id="last_name" value="<?php echo $consultant->last_name; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" value="<?php echo $consultant->email; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefon:</label>
+                    <input type="text" name="phone" id="phone" value="<?php echo $consultant->phone; ?>" required>
+                </div>
+                <button type="submit">Zapisz zmiany</button>
+            </form>
+            <form action="/consultant/edit/<?php echo $consultant->id; ?>" method="POST">
+                <input type="hidden" name="action" value="delete_consultant">
+                <button type="submit">Usuń konsultanta</button>
+            </form>
+        <?php else : ?>
+            <p>Brak konsultanta do edycji.</p>
+        <?php endif; ?>
+    </main>
+<?php
+    include_once __DIR__ . '/../components/footer.php';
+?>

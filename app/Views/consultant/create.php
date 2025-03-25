@@ -1,35 +1,38 @@
 <?php
-// Widok do tworzenia nowego opiekuna
+    // Dodaj konsultanta
 
-// Sprawdzenie, czy formularz został przesłany
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Walidacja danych formularza
-    $name = trim($_POST['name']);
-    $email = trim($_POST['email']);
-
-    // Można dodać więcej walidacji, np. sprawdzenie poprawności adresu e-mail
-
-    // Jeśli dane są poprawne, można je zapisać w bazie danych
-    // Tutaj powinno być wywołanie metody kontrolera do zapisania opiekuna
-    // np. $caregiverController->create($name, $email);
-}
-
+    $name = 'Dodaj konsultanta';
+    include_once __DIR__ . '/../components/header.php';
 ?>
-
-<h1>Dodaj nowego opiekuna</h1>
-
-<form action="" method="post">
-    <div>
-        <label for="name">Imię i nazwisko:</label>
-        <input type="text" id="name" name="name" required>
-    </div>
-    <div>
-        <label for="email">Adres e-mail:</label>
-        <input type="email" id="email" name="email" required>
-    </div>
-    <div>
-        <button type="submit">Zapisz</button>
-    </div>
-</form>
-
-<a href="/caregivers/index">Powrót do listy opiekunów</a>
+    <header class="container">
+        <h1>Dodaj konsultanta</h1>
+        <a href="/consultant/index">Powrót do listy konsultantów</a>
+    </header>
+    <main class="container">
+        <?php
+            include_once __DIR__ . '/../components/validate_form.php';
+        ?>
+        <form action="/consultant/create" method="POST">
+            <input type="hidden" name="action" value="create_consultant">
+            <div class="form-group">
+                <label for="first_name">Imię:</label>
+                <input type="text" name="first_name" id="first_name" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name">Nazwisko:</label>
+                <input type="text" name="last_name" id="last_name" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Telefon:</label>
+                <input type="text" name="phone" id="phone" value="" required>
+            </div>
+            <button type="submit">Zapisz zmiany</button>
+        </form>
+    </main>
+<?php
+    include_once __DIR__ . '/../components/footer.php';
+?>

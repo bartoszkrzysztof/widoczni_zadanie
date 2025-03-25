@@ -10,13 +10,12 @@
         <a href="/package/create">Dodaj nowy pakiet</a>
     </header>
     <main class="container">
-        <?php
-            include_once __DIR__ . '/../components/validate_form.php';
-        ?>
         <?php if ($package) : ?>
+            <?php
+                include_once __DIR__ . '/../components/validate_form.php';
+            ?>
             <form action="/package/edit/<?= $package->id; ?>" method="POST">
                 <input type="hidden" name="action" value="update_package">
-                <input type="hidden" name="id" value="<?= $package->id; ?>">
                 <div class="form-group">
                     <label for="name">Nazwa:</label>
                     <input type="text" name="name" id="name" value="<?= $package->name; ?>" required>
@@ -29,7 +28,6 @@
             </form>
             <form action="/package/edit/<?= $package->id; ?>" method="POST">
                 <input type="hidden" name="action" value="delete_package">
-                <input type="hidden" name="id" value="<?= $package->id; ?>">
                 <button type="submit">Usuń pakiet</button>
             </form>
         <?php else : ?>

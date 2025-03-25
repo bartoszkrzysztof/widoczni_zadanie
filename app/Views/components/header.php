@@ -10,3 +10,11 @@
     <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 <body>
+<nav class="container">
+    <a href="/package">Pakiety</a>
+    <a href="/package/create">Dodaj pakiet</a>
+    <a href="/client">Klienci</a>
+    <a href="/client/create">Dodaj klienta</a>
+    <a href="/consultant">Konsultanci</a>
+    <a href="/consultant/create">Dodaj konsultanta</a>
+</nav>
