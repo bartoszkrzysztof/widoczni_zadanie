@@ -28,7 +28,9 @@ class Client {
 
         $client = Users::getById($pdo, $id, 'clients');
 
-        $client->address_formatted = Client::getAddress($client, true);
+        $client->address_formatted = self::getAddress($client, true);
+        $client->consultant_ids = self::getClientConsultants($pdo, $id);
+        $client->package_id = self::getClientPackage($pdo, $id);
 
         return $client;
     }
@@ -122,5 +124,105 @@ class Client {
         ]);
         
         return $results;   
+    }
+
+    public static function updateClientConsultants($pdo, $id, $consultants_ids) {
+        if (!$pdo || !$id || !$consultants_ids) return false;
+
+        $existing_consultants = self::getClientConsultants($pdo, $id);
+
+        $consultants_to_remove = ($existing_consultants) ? array_diff($existing_consultants, $consultants_ids) : [];
+        if (!empty($consultants_to_remove)) {
+            $placeholders = implode(',', array_fill(0, count($consultants_to_remove), '?'));
+            $stmt = $pdo->prepare("DELETE FROM connections_clients_consultants WHERE client_id = ? AND consultant_id IN ($placeholders)");
+            $stmt->execute(array_merge([$id], $consultants_to_remove));
+        }
+
+        $consultants_to_add = ($existing_consultants) ? array_diff($consultants_ids, $existing_consultants) : $consultants_ids;        
+        if (!empty($consultants_to_add)) {
+            $stmt = $pdo->prepare("INSERT INTO connections_clients_consultants (client_id, consultant_id) VALUES " . 
+            implode(',', array_fill(0, count($consultants_to_add), "(?, ?)")));
+            $params = [];
+            foreach ($consultants_to_add as $consultant_id) {
+                $params[] = $id;
+                $params[] = $consultant_id;
+            }
+            if (!empty($params)) {
+                $stmt->execute($params);
+            }
+        }
+    }
+
+    public static function getClientConsultants($pdo, $id) {
+        if (!$pdo || !$id) return false;
+
+        $stmt = $pdo->prepare("SELECT consultant_id FROM connections_clients_consultants WHERE client_id = :client_id");
+        $stmt->execute(['client_id' => $id]);
+        $consultants = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        return $consultants;
+    }
+
+    public static function updateClientPackage($pdo, $id, $package_id) {
+        if (!$pdo || !$id || !$package_id) return false;
+
+        $exists = self::getClientPackage($pdo, $id);
+
+        if (!$exists) {        
+            $stmt = $pdo->prepare("INSERT INTO connections_clients_packages (client_id, package_id) VALUES (:client_id, :package_id)");
+            $stmt->execute([
+                'client_id' => $id,
+                'package_id' => $package_id,
+            ]);
+        }
+        else {
+            $stmt = $pdo->prepare("UPDATE connections_clients_packages SET package_id = :package_id WHERE client_id = :client_id");
+            $stmt->execute([
+                'client_id' => $id,
+                'package_id' => $package_id,
+            ]);
+        }
+    }
+
+    public static function getClientPackage($pdo, $id) {
+        if (!$pdo || !$id) return false;
+
+        $stmt = $pdo->prepare("SELECT package_id FROM connections_clients_packages WHERE client_id = :client_id");
+        $stmt->execute(['client_id' => $id]);
+        $package_id = $stmt->fetchColumn();
+
+        return $package_id;
+    }
+
+    public static function updateClientContactData($pdo, $id, $contacts) {
+        if (!$pdo || !$id || !$contacts) return false;
+        
+        $contacts = serialize($contacts);
+        $check_contacts = self::getClientContactData($pdo, $id);
+
+        if ($check_contacts) {
+            $stmt = $pdo->prepare("UPDATE clients_meta SET meta_value = :meta_value WHERE meta_key = 'contacts' AND parent_id = :parent_id");
+            $stmt->execute([
+                'meta_value' => $contacts,
+                'parent_id' => $id,
+            ]);
+        }
+        else {
+            $stmt = $pdo->prepare("INSERT INTO clients_meta (meta_key, meta_value, parent_id) VALUES ('contacts', :meta_value, :parent_id)");
+            $stmt->execute([
+                'meta_value' => $contacts,
+                'parent_id' => $id,
+            ]);
+        }
+    }
+
+    public static function getClientContactData($pdo, $id) {
+        if (!$pdo || !$id) return false;
+        
+        $stmt = $pdo->prepare("SELECT meta_value FROM clients_meta WHERE meta_key = 'contacts' AND parent_id = :parent_id");
+        $stmt->execute(['parent_id' => $id]);
+        $meta = $stmt->fetchColumn();
+
+        return unserialize($meta);
     }
 }

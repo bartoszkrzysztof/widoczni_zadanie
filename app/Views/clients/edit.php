@@ -45,6 +45,55 @@
                     <label for="country">Kraj:</label>
                     <input type="text" name="country" id="country" value="<?php echo $client->country; ?>" required>
                 </div>
+                <?php if ($consultants) : ?>
+                    <?php
+                        $selected_consultant_ids = (isset($client->consultant_ids)) ? $client->consultant_ids : [];
+                    ?>
+                    <div class="form-group">
+                        <label for="consultant_id">Konsultant:</label>
+                        <select multiple name="consultant_ids[]" id="consultant_id" required>
+                            <option value="">Wybierz konsultanta</option>
+                            <?php foreach ($consultants as $consultant) : ?>
+                                <option value="<?php echo $consultant->id; ?>" <?php echo (in_array($consultant->id, $selected_consultant_ids)) ? 'selected' : ''; ?>>
+                                    <?php echo $consultant->first_name . ' ' . $consultant->last_name; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                <?php endif; ?>
+                <?php if ($packages) : ?>
+                    <?php
+                        $selected_package = (isset($client->package_id)) ? $client->package_id : false;
+                    ?>
+                    <div class="form-group">
+                        <label for="package_id">Pakiet:</label>
+                        <select name="package_id" id="package_id" required>
+                            <option value="">Wybierz pakiet</option>
+                            <?php foreach ($packages as $package) : ?>
+                                <option value="<?php echo $package->id; ?>" <?php echo ($package->id === $selected_package) ? 'selected' : ''; ?>>
+                                    <?php echo $package->name; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label>Osoby kontaktowe:</label>
+                    <div id="js-contact-list">
+                        <?php if (isset($contacts) && $contacts) : ?>
+                            <?php foreach ($contacts as $key => $contact) : ?>
+                                <div class="contact-item">
+                                    <input type="text" name="contacts[<?php echo $key; ?>][name]" value="<?php echo $contact['name']; ?>" placeholder="Imię i nazwisko" required>
+                                    <input type="email" name="contacts[<?php echo $key; ?>][email]" value="<?php echo $contact['email']; ?>" placeholder="Email" required>
+                                    <input type="text" name="contacts[<?php echo $key; ?>][phone]" value="<?php echo $contact['phone']; ?>" placeholder="Telefon">
+                                    <button type="button" class="js-remove-contact">Usuń</button>
+                                </div>
+                            <?php endforeach;  ?>
+                        <?php endif; ?>
+                    </div>
+                    <button type="button" id="js-add-contact">Dodaj osobę kontaktową</button>
+                </div>
+
                 <button type="submit">Zapisz zmiany</button>
             </form>
             <form action="/client/edit/<?php echo $client->id; ?>" method="POST" class="js-delete-form">

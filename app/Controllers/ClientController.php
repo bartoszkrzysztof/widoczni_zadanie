@@ -1,5 +1,7 @@
 <?php
     require_once __DIR__ . '/../Models/Client.php';
+    require_once __DIR__ . '/../Models/Consultant.php';
+    require_once __DIR__ . '/../Models/Package.php';
 
     class ClientController
     {
@@ -33,9 +35,24 @@
                 $postal_code = $_POST['postal_code'];
                 $country = $_POST['country'];
                 $action = $_POST['action'];
-    
+
                 if ($action === 'update_client') {
                     $results = Client::updateClient($this->pdo, $id, $name, $email, $phone, $address, $city, $postal_code, $country);
+
+                    $consultant_ids = $_POST['consultant_ids'];
+                    if ($consultant_ids) {
+                        Client::updateClientConsultants($this->pdo, $id, $consultant_ids);
+                    }
+
+                    $package_id = $_POST['package_id'];
+                    if ($package_id) {
+                        Client::updateClientPackage($this->pdo, $id, $package_id);
+                    }
+
+                    $contacts = $_POST['contacts'];
+                    if ($contacts) {
+                        Client::updateClientContactData($this->pdo, $id, $contacts);
+                    }
                 }
                 elseif ($action === 'delete_client') {
                     $results = Client::deleteClient($this->pdo, $id);
@@ -47,6 +64,9 @@
             }
             
             $client = Client::getClientById($this->pdo, $id);
+            $consultants = Consultant::getAllConsultants($this->pdo);
+            $packages = Package::getAllPackages($this->pdo);
+            $contacts = Client::getClientContactData($this->pdo, $id);
             require_once '../app/Views/clients/edit.php';
         }
     
