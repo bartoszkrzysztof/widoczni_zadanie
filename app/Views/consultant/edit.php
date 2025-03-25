@@ -35,7 +35,7 @@
                 </div>
                 <button type="submit">Zapisz zmiany</button>
             </form>
-            <form action="/consultant/edit/<?php echo $consultant->id; ?>" method="POST">
+            <form action="/consultant/edit/<?php echo $consultant->id; ?>" method="POST" class="js-delete-form">
                 <input type="hidden" name="action" value="delete_consultant">
                 <button type="submit">Usuń konsultanta</button>
             </form>

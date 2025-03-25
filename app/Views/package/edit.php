@@ -26,7 +26,7 @@
                 </div>
                 <button type="submit">Zapisz zmiany</button>
             </form>
-            <form action="/package/edit/<?= $package->id; ?>" method="POST">
+            <form action="/package/edit/<?= $package->id; ?>" method="POST" class="js-delete-form">
                 <input type="hidden" name="action" value="delete_package">
                 <button type="submit">Usuń pakiet</button>
             </form>

@@ -1,28 +1,50 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dodaj nowego klienta</title>
-    <link rel="stylesheet" href="/assets/css/styles.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Dodaj nowego klienta</h1>
-        <form action="/clients/store" method="POST">
+<?php
+    // Dodaj klienta
+
+    $name = 'Dodaj klienta';
+    include_once __DIR__ . '/../components/header.php';
+?>
+    <header class="container">
+        <h1>Dodaj klienta</h1>
+        <a href="/client/index">Powrót do listy klientów</a>
+    </header>
+    <main class="container">
+        <?php
+            include_once __DIR__ . '/../components/validate_form.php';
+        ?>
+        <form action="/client/create" method="POST">
+            <input type="hidden" name="action" value="create_client">
             <div class="form-group">
-                <label for="name">Imię i nazwisko:</label>
-                <input type="text" id="name" name="name" required>
+                <label for="name">Nazwa:</label>
+                <input type="text" name="name" id="name" value="" required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" name="email" id="email" value="" required>
             </div>
             <div class="form-group">
-                <button type="submit">Zapisz klienta</button>
+                <label for="phone">Telefon:</label>
+                <input type="text" name="phone" id="phone" value="" required>
             </div>
+            <div class="form-group">
+                <label for="address">Adres:</label>
+                <input type="text" name="address" id="address" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="postal_code">Kod pocztowy:</label>
+                <input type="text" name="postal_code" id="postal_code" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="city">Miasto:</label>
+                <input type="text" name="city" id="city" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="country">Kraj:</label>
+                <input type="text" name="country" id="country" value="" required>
+            </div>
+            <button type="submit">Zapisz zmiany</button>
         </form>
-        <a href="/clients">Powrót do listy klientów</a>
-    </div>
-</body>
-</html>
+    </main>
+<?php
+    include_once __DIR__ . '/../components/footer.php';
+?>

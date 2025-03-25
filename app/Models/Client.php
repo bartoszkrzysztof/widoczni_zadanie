@@ -41,28 +41,86 @@ class Client {
             return htmlspecialchars($client->address . ' ' . $client->postal_code . ' ' . $client->city . ' ' . $client->country);
         }   
     }
+    
+    public static function updateClient($pdo, $id, $name, $email, $phone, $address, $city, $postal_code, $country) {
+        if (!$pdo || !$id) return false;
 
-    // public function setName($name) {
-    //     $this->name = $name;
-    // }
+        $errors = [];
+        $status = 'error';
 
-    // public function setEmail($email) {
-    //     $this->email = $email;
-    // }
+        $check_table = [
+            'name' => 'Nazwa jest wymagana.',
+            'email' => 'Email jest wymagany.',
+            'phone' => 'Telefon jest wymagany.',
+            'address' => 'Adres jest wymagany.',
+            'city' => 'Miasto jest wymagane.',
+            'postal_code' => 'Kod pocztowy jest wymagany.',
+            'country' => 'Kraj jest wymagany.'
+        ];
+        foreach ($check_table as $field => $error) {
+            if (!$$field) {
+                $errors[$field] = $error;
+            }
+        }
+        if (!empty($errors)) {
+            return ['status' => $status, 'messages' => $errors];
+        }
 
-    // public static function getById($id) {
-    //     // Logic to retrieve a client by ID from the database
-    // }
+        $results = Users::update($pdo, $id, 'clients', [
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'address' => $address,
+            'city' => $city,
+            'postal_code' => $postal_code,
+            'country' => $country
+        ]);
 
-    // public function save() {
-    //     // Logic to save a new client to the database
-    // }
+        return $results;   
+    }
 
-    // public function update($id) {
-    //     // Logic to update an existing client in the database
-    // }
+    public static function deleteClient($pdo, $id) {
+        if (!$pdo || !$id) return false;
 
-    // public function delete($id) {
-    //     // Logic to delete a client from the database
-    // }
+        $results = Users::delete($pdo, $id, 'clients');
+
+        return $results;
+    }
+
+    public static function createClient($pdo, $name, $email, $phone, $address, $city, $postal_code, $country) {
+        if (!$pdo) return false;
+
+        $errors = [];
+        $status = 'error';
+
+        $check_table = [
+            'name' => 'Nazwa jest wymagana.',
+            'email' => 'Email jest wymagany.',
+            'phone' => 'Telefon jest wymagany.',
+            'address' => 'Adres jest wymagany.',
+            'city' => 'Miasto jest wymagane.',
+            'postal_code' => 'Kod pocztowy jest wymagany.',
+            'country' => 'Kraj jest wymagany.'
+        ];
+        foreach ($check_table as $field => $error) {
+            if (!$$field) {
+                $errors[$field] = $error;
+            }
+        }
+        if (!empty($errors)) {
+            return ['status' => $status, 'messages' => $errors];
+        }
+
+        $results = Users::create($pdo, 'clients', [
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'address' => $address,
+            'city' => $city,
+            'postal_code' => $postal_code,
+            'country' => $country
+        ]);
+        
+        return $results;   
+    }
 }

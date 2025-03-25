@@ -6,7 +6,7 @@
 ?>
 <header class="container">
     <h1>Lista klientów</h1>
-    <a href="/clients/create">Dodaj nowego klienta</a>
+    <a href="/client/create">Dodaj nowego klienta</a>
 </header>
 <?php if ($clients) : ?>
     <main class="container">
