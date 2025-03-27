@@ -1,7 +1,7 @@
 <?php
-    // Szczegóły klienta
+    // Szczegóły konsultanta
 
-    $name = 'Szczegóły klienta';
+    $name = 'Szczegóły konsultanta';
     include_once __DIR__ . '/../components/header.php';
 ?>
 <header class="container">

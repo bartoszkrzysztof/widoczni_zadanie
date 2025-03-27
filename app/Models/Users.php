@@ -64,11 +64,17 @@ class Users {
 
         $status = 'error';
         $fields = '';
+        $params = [];
         foreach ($data as $key => $value) {
-            $fields .= "{$key} = '{$value}',";
+            $fields .= "{$key} = :{$key},";
+            $params[":{$key}"] = $value;
         }
         $fields = rtrim($fields, ',');
-        $pdo_stmt = $pdo->prepare("UPDATE {$table} SET {$fields} WHERE id = {$id}");
+        $pdo_stmt = $pdo->prepare("UPDATE {$table} SET {$fields} WHERE id = :id");
+        $params[':id'] = $id;
+        foreach ($params as $param => $value) {
+            $pdo_stmt->bindValue($param, $value);
+        }
         
         if ($pdo_stmt->execute()) {
             $success['success'] = 'Pomyślnie zaktualizowano.';
@@ -87,11 +93,16 @@ class Users {
         $errors = [];
         $status = 'error';
         $fields = '';
+        $params = [];
         foreach ($data as $key => $value) {
-            $fields .= "{$key} = '{$value}',";
+            $fields .= "{$key} = :{$key},";
+            $params[":{$key}"] = $value;
         }
         $fields = rtrim($fields, ',');
         $pdo_stmt = $pdo->prepare("INSERT INTO {$table} SET {$fields}");
+        foreach ($params as $param => $value) {
+            $pdo_stmt->bindValue($param, $value);
+        }
 
         if ($pdo_stmt->execute()) {
             $success['success'] = 'Pomyślnie dodano.';

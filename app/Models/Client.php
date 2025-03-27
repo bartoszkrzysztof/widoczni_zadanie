@@ -144,8 +144,8 @@ class Client {
             implode(',', array_fill(0, count($consultants_to_add), "(?, ?)")));
             $params = [];
             foreach ($consultants_to_add as $consultant_id) {
-                $params[] = $id;
-                $params[] = $consultant_id;
+                $params[] = (int)$id;
+                $params[] = (int)$consultant_id;
             }
             if (!empty($params)) {
                 $stmt->execute($params);
@@ -184,17 +184,15 @@ class Client {
 
         if (!$exists) {        
             $stmt = $pdo->prepare("INSERT INTO connections_clients_packages (client_id, package_id) VALUES (:client_id, :package_id)");
-            $stmt->execute([
-                'client_id' => $id,
-                'package_id' => $package_id,
-            ]);
+            $stmt->bindValue(':client_id', (int)$id, PDO::PARAM_INT);
+            $stmt->bindValue(':package_id', (int)$package_id, PDO::PARAM_INT);
+            $stmt->execute();
         }
         else {
             $stmt = $pdo->prepare("UPDATE connections_clients_packages SET package_id = :package_id WHERE client_id = :client_id");
-            $stmt->execute([
-                'client_id' => $id,
-                'package_id' => $package_id,
-            ]);
+            $stmt->bindValue(':client_id', (int)$id, PDO::PARAM_INT);
+            $stmt->bindValue(':package_id', (int)$package_id, PDO::PARAM_INT);
+            $stmt->execute();
         }
     }
 
@@ -232,17 +230,16 @@ class Client {
 
         if ($check_contacts) {
             $stmt = $pdo->prepare("UPDATE clients_meta SET meta_value = :meta_value WHERE meta_key = 'contacts' AND parent_id = :parent_id");
-            $stmt->execute([
-                'meta_value' => $contacts,
-                'parent_id' => $id,
-            ]);
+            $stmt->bindValue(':meta_value', $contacts, PDO::PARAM_STR);
+            $stmt->bindValue(':parent_id', (int)$id, PDO::PARAM_INT);
+            $stmt->execute();
         }
         else {
-            $stmt = $pdo->prepare("INSERT INTO clients_meta (meta_key, meta_value, parent_id) VALUES ('contacts', :meta_value, :parent_id)");
-            $stmt->execute([
-                'meta_value' => $contacts,
-                'parent_id' => $id,
-            ]);
+            $stmt = $pdo->prepare("INSERT INTO clients_meta (meta_key, meta_value, parent_id) VALUES (:meta_key, :meta_value, :parent_id)");
+            $stmt->bindParam(':meta_key', 'contacts');
+            $stmt->bindValue(':meta_value', $contacts, PDO::PARAM_STR);
+            $stmt->bindValue(':parent_id', (int)$id, PDO::PARAM_INT);
+            $stmt->execute();
         }
     }
 

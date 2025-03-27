@@ -30,14 +30,14 @@
         public function edit($id)
         {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $name = $_POST['name'];
-                $email = $_POST['email'];
-                $phone = $_POST['phone'];
-                $address = $_POST['address'];
-                $city = $_POST['city'];
-                $postal_code = $_POST['postal_code'];
-                $country = $_POST['country'];
-                $action = $_POST['action'];
+                $name = isset($_POST['name']) ? htmlspecialchars(trim($_POST['name'])) : null;
+                $email = isset($_POST['email']) ? htmlspecialchars(trim($_POST['email'])) : null;
+                $phone = isset($_POST['phone']) ? htmlspecialchars(trim($_POST['phone'])) : null;
+                $address = isset($_POST['address']) ? htmlspecialchars(trim($_POST['address'])) : null;
+                $city = isset($_POST['city']) ? htmlspecialchars(trim($_POST['city'])) : null;
+                $postal_code = isset($_POST['postal_code']) ? htmlspecialchars(trim($_POST['postal_code'])) : null;
+                $country = isset($_POST['country']) ? htmlspecialchars(trim($_POST['country'])) : null;
+                $action = isset($_POST['action']) ? htmlspecialchars(trim($_POST['action'])) : null;
 
                 if ($action === 'update_client') {
                     $results = Client::updateClient($this->pdo, $id, $name, $email, $phone, $address, $city, $postal_code, $country);
@@ -76,14 +76,14 @@
         public function create()
         {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $name = $_POST['name'];
-                $email = $_POST['email'];
-                $phone = $_POST['phone'];
-                $address = $_POST['address'];
-                $city = $_POST['city'];
-                $postal_code = $_POST['postal_code'];
-                $country = $_POST['country'];
-                $action = $_POST['action'];
+                $name = isset($_POST['name']) ? htmlspecialchars(trim($_POST['name'])) : null;
+                $email = isset($_POST['email']) ? htmlspecialchars(trim($_POST['email'])) : null;
+                $phone = isset($_POST['phone']) ? htmlspecialchars(trim($_POST['phone'])) : null;
+                $address = isset($_POST['address']) ? htmlspecialchars(trim($_POST['address'])) : null;
+                $city = isset($_POST['city']) ? htmlspecialchars(trim($_POST['city'])) : null;
+                $postal_code = isset($_POST['postal_code']) ? htmlspecialchars(trim($_POST['postal_code'])) : null;
+                $country = isset($_POST['country']) ? htmlspecialchars(trim($_POST['country'])) : null;
+                $action = isset($_POST['action']) ? htmlspecialchars(trim($_POST['action'])) : null;
     
                 if ($action === 'create_client') {
                     $results = Client::createClient($this->pdo, $name, $email, $phone, $address, $city, $postal_code, $country);

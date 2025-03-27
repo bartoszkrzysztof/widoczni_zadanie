@@ -25,11 +25,11 @@ class ConsultantController
     public function edit($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $first_name = $_POST['first_name'];
-            $last_name = $_POST['last_name'];
-            $email = $_POST['email'];
-            $phone = $_POST['phone'];
-            $action = $_POST['action'];
+            $first_name = isset($_POST['first_name']) ? htmlspecialchars(trim($_POST['first_name'])) : null;
+            $last_name = isset($_POST['last_name']) ? htmlspecialchars(trim($_POST['last_name'])) : null;
+            $email = isset($_POST['email']) ? htmlspecialchars(trim($_POST['email'])) : null;
+            $phone = isset($_POST['phone']) ? htmlspecialchars(trim($_POST['phone'])) : null;
+            $action = isset($_POST['action']) ? htmlspecialchars(trim($_POST['action'])) : null;
 
             if ($action === 'update_consultant') {
                 $results = Consultant::updateConsultant($this->pdo, $id, $first_name, $last_name, $email, $phone);
@@ -50,11 +50,11 @@ class ConsultantController
     public function create()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $first_name = $_POST['first_name'];
-            $last_name = $_POST['last_name'];
-            $email = $_POST['email'];
-            $phone = $_POST['phone'];
-            $action = $_POST['action'];
+            $first_name = isset($_POST['first_name']) ? htmlspecialchars(trim($_POST['first_name'])) : null;
+            $last_name = isset($_POST['last_name']) ? htmlspecialchars(trim($_POST['last_name'])) : null;
+            $email = isset($_POST['email']) ? htmlspecialchars(trim($_POST['email'])) : null;
+            $phone = isset($_POST['phone']) ? htmlspecialchars(trim($_POST['phone'])) : null;
+            $action = isset($_POST['action']) ? htmlspecialchars(trim($_POST['action'])) : null;
 
             if ($action === 'create_consultant') {
                 $results = Consultant::createConsultant($this->pdo, $first_name, $last_name, $email, $phone);

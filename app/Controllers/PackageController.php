@@ -18,9 +18,9 @@
         public function edit($id)
         {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $name = $_POST['name'];
-                $description = $_POST['description'];
-                $action = $_POST['action'];
+                $name = isset($_POST['name']) ? htmlspecialchars(trim($_POST['name'])) : null;
+                $description = isset($_POST['description']) ? htmlspecialchars(trim($_POST['description'])) : null;
+                $action = isset($_POST['action']) ? htmlspecialchars(trim($_POST['action'])) : null;
 
                 if ($action === 'update_package') {
                     $results = Package::updatePackage($this->pdo, $id, $name, $description);
@@ -41,9 +41,9 @@
         public function create()
         {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $name = $_POST['name'];
-                $description = $_POST['description'];
-                $action = $_POST['action'];
+                $name = isset($_POST['name']) ? htmlspecialchars(trim($_POST['name'])) : null;
+                $description = isset($_POST['description']) ? htmlspecialchars(trim($_POST['description'])) : null;
+                $action = isset($_POST['action']) ? htmlspecialchars(trim($_POST['action'])) : null;
 
                 if ($action === 'create_package') {
                     $results = Package::createPackage($this->pdo, $name, $description);
