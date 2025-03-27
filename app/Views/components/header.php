@@ -13,6 +13,7 @@
 <body>
 <div class="container">
     <nav>
+        <a href="/">Start</a>
         <a href="/client">Klienci</a>
         <a href="/consultant">Konsultanci</a>
         <a href="/package">Pakiety</a>

@@ -1,10 +1,11 @@
 <?php
     require_once '../config/database.php';
+    require_once __DIR__ . '/../app/Controllers/BaseController.php';
     require_once __DIR__ . '/../app/Controllers/ClientController.php';
     require_once __DIR__ . '/../app/Controllers/ConsultantController.php';
     require_once __DIR__ . '/../app/Controllers/PackageController.php';
 
-    $controller = 'ClientController';
+    $controller = 'BaseController';
     $action = 'index';
     $params = [];
 
@@ -12,7 +13,9 @@
     $url = trim($url, '/');
     $url = explode('/', $url);
 
-    $controller = ucfirst($url[0]) . 'Controller';
+    if (isset($url[0]) && $url[0] !== '') {
+        $controller = ucfirst($url[0]) . 'Controller';
+    }
     if (isset($url[1])) {
         $action = $url[1];
     }
